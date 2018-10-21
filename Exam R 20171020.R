@@ -65,25 +65,31 @@ build_mgb <- setRefClass("MGB",
                            #Insert to history
                            history[nrow(history) +1,] <<- list(name,speed, weight, travel_time, status)
                            }
-                           
+                           return(history)
                          },
                          #function that print the history
                          report = function() {
                            print(history)
-                         },
-                         
-                         #function that run 100 times and draw result.
-                         plot = function(){
-                           for (i in 1:100) {
-                             simulate_home_run()
-                           }
-                           library(ggplot2)
-                            times <- c(1:nrow(history))
-                           ggplot(data=history, mapping= aes(y=travel_time, x=times)) + geom_line()
                          }
+                         
                        )
 )
 
+
+#2.c
+MGB_504 <- build_mgb(name="Hopewell",speed=46)
+for (i in 1:100) {
+  history <- MGB_504$simulate_home_run()
+}
+
+#function that run 100 times and draw result.
+plot = function(history){
+  library(ggplot2)
+  times <- c(1:nrow(history))
+  ggplot(data=history, mapping= aes(y=travel_time, x=times)) + 
+    geom_line() +
+    labs(title="Line plot of travel time")
+}
 
 
 #3.1
